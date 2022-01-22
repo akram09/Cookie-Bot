@@ -11,12 +11,12 @@ function loadCommands(client, token, clientId, guildId) {
   // Prepare ascii table for logging
   const table = new ascii().setHeading("Slash Commands", "Load Status");
   // read folder of commands
-  const categoryFolders = fs.readdirSync("./commands");
+  const categoryFolders = fs.readdirSync("src/commands");
   // iterate over the categories of commands
   for (const folder of categoryFolders) {
     // get the commands of the category
     const commandFiles = fs
-      .readdirSync(`./commands/${folder}`)
+      .readdirSync(`src/commands/${folder}`)
       .filter((file) => file.endsWith(".js"));
     // iterate over the commands
     for (const file of commandFiles) {
