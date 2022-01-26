@@ -79,3 +79,7 @@ class ClickUpAPI {
   }
 }
 
+module.exports = {
+  ClickUpAPI: ClickUpAPI,
+};
+
