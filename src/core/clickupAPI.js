@@ -75,7 +75,7 @@ class ClickUpAPI {
   async getTasks(listName) {
     const listId = await this.getListId(listName);
     const resp = await this.clickupClient.lists.getTasks(listId);
-    return resp.body;
+    return resp.body.tasks;
   }
 }
 
