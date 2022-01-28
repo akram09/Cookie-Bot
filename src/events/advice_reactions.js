@@ -1,4 +1,4 @@
-const {advicelist} = require('../../core/advices');
+const {advicelist} = require('../core/advices');
 
 /**
  * When a user react on a message

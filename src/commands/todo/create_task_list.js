@@ -1,5 +1,6 @@
 const {ClickUpAPI} = require('../../core/clickupAPI.js');
-const {clickUpToken} = require('../../../config.json');
+const {MessageEmbed} = require('discord.js');
+const {clickUpToken, spaceId} = require('../../../config.json');
 
 module.exports = {
   name: 'create-list',
@@ -7,13 +8,21 @@ module.exports = {
     'Create a list of tasks for this channel on clickup, if it doesn\'t exist',
   options: null,
   execute: async (client, interaction, args) => {
-    const clickupApi = new ClickUpAPI(clickUpToken, 55413139);
-    let listId = await clickupApi.getListId(interaction.channel.name);
+    const replyEmbed = new MessageEmbed().setThumbnail('https://clickup.com/landing/images/for-se-page/clickup.png');
+    const clickupApi = new ClickUpAPI(clickUpToken, spaceId);
+    const channelName = interaction.channel.name;
+    const listId = await clickupApi.getListId(channelName);
     if (typeof listId === 'undefined') {
-      listId = await clickupApi.createList(interaction.channel.name);
-      interaction.reply('list created');
+      await clickupApi.createList(channelName);
+      replyEmbed.setColor('GREEN').setTitle('List Created')
+          .setDescription(`List named: **${channelName}**`+
+          ` created successufully`);
+      console.log(interaction);
+      await interaction.reply({embeds: [replyEmbed]});
     } else {
-      interaction.reply('list already exist');
+      replyEmbed.setColor('RED').setTitle('List Exist')
+          .setDescription('list already exist');
+      await interaction.reply({embeds: [replyEmbed]});
     }
   },
 };

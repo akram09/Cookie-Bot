@@ -1,3 +1,4 @@
+const Levels = require('discord-xp');
 /**
  *
  * @param {*} message

@@ -8,7 +8,7 @@ module.exports = {
   userPermissions: ['SEND_MESSAGES'],
   category: 'Utility',
   // starting command
-  execute: async ({client, interaction, args}) => {
+  execute: async (client, interaction, args) => {
     const rawLeaderBoard = await Levels.fetchLeaderboad(
         interaction.guild.id,
         10,
