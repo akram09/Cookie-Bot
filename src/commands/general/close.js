@@ -1,4 +1,3 @@
-const {SlashCommandBuilder} = require('@discordjs/builders');
 const {MessageEmbed} = require('discord.js');
 const path = require('path');
 const PizZip = require('pizzip');
@@ -12,35 +11,19 @@ const templateFile = fs.readFileSync(path.resolve(__dirname,
 const zip = new PizZip(templateFile);
 
 module.exports = {
-  data: new SlashCommandBuilder()
-      .setName('close')
-      .setDescription('Close the meeting and sends the PV'),
-  async execute(interaction) {
+  name: 'close',
+  description: 'Closes the meeting thread and send the PV to the main channel',
+  execute: async (client, interaction, args) => {
     const fs = require('fs');
     if (fs.existsSync('pv.json')) {
       const data = fs.readFileSync('pv.json', 'utf-8');
       const pv = JSON.parse(data.toString());
       if (interaction.channelId === pv.Thread) {
-        const tchannel = interaction.guild.
-            channels.cache.get('934132332376498218');
+        const tchannel = interaction.channel.parent;
 
         const today = new Date();
         const date = today.getDate() + '/' + (today.getMonth() + 1) + '/' +
         today.getFullYear()+' at '+ today.getHours()+':' + today.getMinutes();
-
-        const embed = new MessageEmbed()
-            .setColor('#0099ff')
-            .setTitle('Meeting Closure and Generating PV')
-            .setThumbnail('https://www.freeiconspng.com/uploads/document-note-paper-text-icon-13.jpg')
-            .addFields(
-                {name: 'Meeting Title', value: pv.Title},
-                {name: 'Closure Time', value: date},
-            );
-        tchannel.send({
-          embeds: [embed],
-
-        });
-
 
         try {
           // Attempt to read all the templated tags
@@ -61,8 +44,23 @@ module.exports = {
 
             fs.writeFileSync(path.resolve(__dirname, 'PV_'+pv.Title+'.docx'),
                 outputDocumentBuffer);
-            tchannel.send({
-              files: ['./commands/PV_'+pv.Title+'.docx'],
+            const embed = new MessageEmbed()
+                .setColor('#0099ff')
+                .setTitle('Meeting Closure and Generating PV')
+                .setThumbnail('https://www.freeiconspng.com/uploads/document-note-paper-text-icon-13.jpg')
+                .addFields(
+                    {name: 'Meeting Title', value: pv.Title},
+                    {name: 'Closure Time', value: date},
+                );
+            await tchannel.send({
+              embeds: [embed],
+
+            }).then(() => { // Wait until the first message is sent
+              setTimeout(() => {
+                tchannel.send({
+                  files: [path.resolve(__dirname, 'PV_'+pv.Title+'.docx')],
+                });
+              }, 7000);
             });
           } catch (error) {
             console.error(`ERROR Filling out Template:`);
