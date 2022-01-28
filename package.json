@@ -29,14 +29,7 @@
     "ascii-table": "^0.0.9",
     "discord-api-types": "^0.26.1",
     "discord.js": "^13.6.0",
-<<<<<<< HEAD
     "dotenv": "^14.3.2",
     "nodemon": "^2.0.15"
   }
 }
-=======
-    "nodemon": "^2.0.15"
-  }
-}
-
->>>>>>> 9cbf92d (fix: rebase changes from main)
