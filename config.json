@@ -1,6 +1,8 @@
 {
-  "clientId": "",
-  "guildId": "",
-  "token": "",
-  "clickUpToken": ""
+  "clientId": "933101139082231878",
+  "guildId": "933099887799705620",
+  "token": "OTMzMTAxMTM5MDgyMjMxODc4.YecoJw.HmfBveSeTX3dXDz3pXTIKJNJ7Yc",
+  "clickUpToken": "pk_4715216_2HZMNGPBNZ1ZA8CV2IS2NRP06RWRNG3U",
+  "spaceId": "55427412",
+  "mongodb": "mongodb+srv://gdglevelsystem:discordbot@cluster0.7vwb5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 }

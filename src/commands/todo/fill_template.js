@@ -1,5 +1,6 @@
 const {ClickUpAPI} = require('../../core/clickupAPI.js');
-const {clickUpToken} = require('../../../config.json');
+const {MessageEmbed} = require('discord.js');
+const {clickUpToken, spaceId} = require('../../../config.json');
 
 module.exports = {
   name: 'fill-template',
@@ -7,34 +8,40 @@ module.exports = {
     'Fill the list of task with a template',
   options: null,
   execute: async (client, interaction, args) => {
-    const clickupApi = new ClickUpAPI(clickUpToken, 55413139);
+    const clickupApi = new ClickUpAPI(clickUpToken, spaceId);
     const tasks = [
       {
-        name: 'taskName1',
-        description: 'taskDescription',
+        name: 'Create Comm Plan',
+        description: 'Communication department can'+
+        ' start working on the communication plan',
       },
       {
-        name: 'taskName2',
-        description: 'taskDescription',
+        name: 'Prepare Visual Identity',
+        description: 'Design team can start preparing the visual identity ',
       },
       {
-        name: 'taskName3',
-        description: 'taskDescription',
+        name: 'Teaser of the event',
+        description: 'Multimedia team can start preparing the teaser',
       },
       {
-        name: 'taskName4',
-        description: 'taskDescription',
+        name: 'Content of the event ',
+        description: 'We need to prepare a set of format for the event ',
       },
     ];
+    const replyEmbed = new MessageEmbed().setThumbnail('https://clickup.com/landing/images/for-se-page/clickup.png');
     const listId = await clickupApi.getListId(interaction.channel.name);
     if (typeof listId === 'undefined') {
-      interaction.reply('list not created yet, call /create-list');
+      replyEmbed.setColor('RED').setTitle('No List')
+          .setDescription('list not created yet, call /create-list');
+      await interaction.reply({embeds: [replyEmbed]});
     } else {
       tasks.forEach((task) => {
         clickupApi.createTask(
             interaction.channel.name, task.name, task.description);
       });
-      interaction.reply('template created successfuly');
+      replyEmbed.setColor('GREEN').setTitle('Template applied')
+          .setDescription('template created successfuly');
+      await interaction.reply({embeds: [replyEmbed]});
     }
   },
 };

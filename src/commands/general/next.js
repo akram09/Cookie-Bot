@@ -1,18 +1,18 @@
-const {SlashCommandBuilder} = require('@discordjs/builders');
 const {MessageEmbed} = require('discord.js');
 
 const fs = require('fs');
 
 module.exports = {
-  data: new SlashCommandBuilder()
-      .setName('next')
-      .setDescription('Saves you message as a next'+
-      ' point to discuss in future meetings')
-      .addStringOption((option) =>
-        option.setName('message')
-            .setDescription('The Message you want to save for future meetings')
-            .setRequired(true)),
-  async execute(interaction) {
+  name: 'next',
+  description: 'Saves your message as next point to discuss in next meetings',
+  options: [{
+    name: 'message',
+    type: 3,
+    description: 'The important point you want to save for next meetings',
+    required: true},
+
+  ],
+  execute: async (client, interaction, args) => {
     const m = interaction.options.getString('message');
     if (fs.existsSync('pv.json')) {
       const data = fs.readFileSync('pv.json', 'utf-8');

@@ -1,17 +1,17 @@
-const {SlashCommandBuilder} = require('@discordjs/builders');
 const {MessageEmbed} = require('discord.js');
 
 const fs = require('fs');
 
 module.exports = {
-  data: new SlashCommandBuilder()
-      .setName('important')
-      .setDescription('Saves your important message')
-      .addStringOption((option) =>
-        option.setName('message')
-            .setDescription('The Message you want to save')
-            .setRequired(true)),
-  async execute(interaction) {
+  name: 'important',
+  description: 'Saves your message as an important point in the PV',
+  options: [{
+    name: 'message',
+    type: 3,
+    description: 'The important point you want to add in the PV',
+    required: true},
+  ],
+  execute: async (client, interaction, args) => {
     const m = interaction.options.getString('message');
 
     if (fs.existsSync('pv.json')) {

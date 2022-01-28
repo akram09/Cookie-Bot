@@ -1,21 +1,25 @@
-const {SlashCommandBuilder} = require('@discordjs/builders');
 const {MessageEmbed} = require('discord.js');
 
 const fs = require('fs');
 
+
 module.exports = {
-  data: new SlashCommandBuilder()
-      .setName('meeting')
-      .setDescription('Creates a meeting using as title the provided input')
-      .addStringOption((option) =>
-        option.setName('title')
-            .setDescription('The Title you want for the meeting')
-            .setRequired(true))
-      .addStringOption((option) =>
-        option.setName('object')
-            .setDescription('The reason why you are doing a meeting')
-            .setRequired(true)),
-  async execute(interaction) {
+
+  name: 'meeting',
+  description: 'Creates a meeting using as title the provided input',
+  options: [{
+    name: 'title',
+    type: 3,
+    description: 'The Title you want for the meeting',
+    required: true},
+  {
+    name: 'object',
+    type: 3,
+    description: 'The reason why you are doing a meeting',
+    required: true,
+  },
+  ],
+  execute: async (client, interaction, args) => {
     const today = new Date();
     const date = today.getDate() + '/' + (today.getMonth() +
      1) + '/' + today.getFullYear();
