@@ -2,5 +2,6 @@
   "clientId": "",
   "guildId": "",
   "token": "",
-  "clickUpToken": ""
+  "clickUpToken": "",
+  "mongodb": ""
 }
